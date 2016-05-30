@@ -41,15 +41,27 @@ namespace ThreatMaps
             this.propertiesPanel.Name = "propertiesPanel";
             this.propertiesPanel.Size = new System.Drawing.Size(200, gridYSize + 10);
             this.propertiesPanel.TabIndex = 0;
+            //
+            // ContextMenu
+            //
+            ContextMenu cm = new ContextMenu();
+            MenuItem mStartPoint = new MenuItem("Start Point");
+            MenuItem mEndPoint = new MenuItem("End Point");
+            mStartPoint.Click += new System.EventHandler(cm_setStartPointEvent);
+            mEndPoint.Click += new System.EventHandler(cm_setEndPointEvent);
+            cm.MenuItems.Add(mStartPoint);
+            cm.MenuItems.Add(mEndPoint);
             // 
             // gridPanel
-            // 
+            //
             this.gridPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.gridPanel.Location = new System.Drawing.Point(220, 10);
             this.gridPanel.Name = "gridPanel";
             this.gridPanel.Size = new System.Drawing.Size(gridXSize + 10, gridYSize + 10);
             this.gridPanel.TabIndex = 1;
             this.gridPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.gridPanel_Paint);
+            this.gridPanel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.gridPanel_Click);
+            this.gridPanel.ContextMenu = cm;
             // 
             // ThreatMapsForm
             // 

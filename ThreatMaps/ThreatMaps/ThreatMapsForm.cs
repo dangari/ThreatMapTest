@@ -25,7 +25,8 @@ namespace ThreatMaps
         private int squareXCount;
         private int squareYCount;
 
-
+        private Point clickedPoint;
+        private Point startPoint;
        
 
         public ThreatMapsForm()
@@ -43,6 +44,24 @@ namespace ThreatMaps
         private void gridPanel_Paint(object sender, PaintEventArgs e)
         {
             drawGrid(e);
+        }
+
+        private void gridPanel_Click(object sender, MouseEventArgs e)
+        {
+            if (e.Button == System.Windows.Forms.MouseButtons.Right)
+            {
+                clickedPoint = gridPanel.PointToClient(Cursor.Position);
+            }
+            
+        }
+
+        private void cm_setStartPointEvent(object sender, EventArgs e)
+        {
+
+            gridPanel.Refresh();
+        }
+        private void cm_setEndPointEvent(object sender, EventArgs e)
+        {
         }
 
 
