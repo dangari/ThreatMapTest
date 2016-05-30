@@ -37,27 +37,29 @@ namespace ThreatMaps
             // propertiesPanel
             // 
             this.propertiesPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.propertiesPanel.Location = new System.Drawing.Point(12, 12);
+            this.propertiesPanel.Location = new System.Drawing.Point(10, 10);
             this.propertiesPanel.Name = "propertiesPanel";
-            this.propertiesPanel.Size = new System.Drawing.Size(200, 579);
+            this.propertiesPanel.Size = new System.Drawing.Size(200, 500);
             this.propertiesPanel.TabIndex = 0;
             // 
             // gridPanel
             // 
             this.gridPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.gridPanel.Location = new System.Drawing.Point(219, 12);
+            this.gridPanel.Location = new System.Drawing.Point(220, 10);
             this.gridPanel.Name = "gridPanel";
-            this.gridPanel.Size = new System.Drawing.Size(593, 579);
+            this.gridPanel.Size = new System.Drawing.Size(500, 500);
             this.gridPanel.TabIndex = 1;
-            this.gridPanel.Paint += new PaintEventHandler(gridPanel_Paint);
+            this.gridPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.gridPanel_Paint);
             // 
             // ThreatMapsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(824, 603);
+            this.ClientSize = new System.Drawing.Size(734, 521);
             this.Controls.Add(this.gridPanel);
             this.Controls.Add(this.propertiesPanel);
+            this.MaximumSize = new System.Drawing.Size(750, 560);
+            this.MinimumSize = new System.Drawing.Size(750, 560);
             this.Name = "ThreatMapsForm";
             this.Text = "ThreatMaps";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -69,6 +71,8 @@ namespace ThreatMaps
 
         private System.Windows.Forms.Panel propertiesPanel;
         private System.Windows.Forms.Panel gridPanel;
+
+        private const float drawSpace = 5.0f;
 
         private void gridPanel_Paint(object sender, PaintEventArgs e)
         {
