@@ -39,7 +39,7 @@ namespace ThreatMaps
             this.propertiesPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.propertiesPanel.Location = new System.Drawing.Point(10, 10);
             this.propertiesPanel.Name = "propertiesPanel";
-            this.propertiesPanel.Size = new System.Drawing.Size(200, 500);
+            this.propertiesPanel.Size = new System.Drawing.Size(200, gridYSize + 10);
             this.propertiesPanel.TabIndex = 0;
             // 
             // gridPanel
@@ -47,7 +47,7 @@ namespace ThreatMaps
             this.gridPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.gridPanel.Location = new System.Drawing.Point(220, 10);
             this.gridPanel.Name = "gridPanel";
-            this.gridPanel.Size = new System.Drawing.Size(500, 500);
+            this.gridPanel.Size = new System.Drawing.Size(gridXSize + 10, gridYSize + 10);
             this.gridPanel.TabIndex = 1;
             this.gridPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.gridPanel_Paint);
             // 
@@ -58,8 +58,8 @@ namespace ThreatMaps
             this.ClientSize = new System.Drawing.Size(734, 521);
             this.Controls.Add(this.gridPanel);
             this.Controls.Add(this.propertiesPanel);
-            this.MaximumSize = new System.Drawing.Size(750, 560);
-            this.MinimumSize = new System.Drawing.Size(750, 560);
+            this.MaximumSize = new System.Drawing.Size(gridXSize + 250, gridYSize + 65);
+            this.MinimumSize = new System.Drawing.Size(gridXSize + 250, gridYSize + 65);
             this.Name = "ThreatMapsForm";
             this.Text = "ThreatMaps";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -72,15 +72,7 @@ namespace ThreatMaps
         private System.Windows.Forms.Panel propertiesPanel;
         private System.Windows.Forms.Panel gridPanel;
 
-        private const float drawSpace = 5.0f;
-
-        private void gridPanel_Paint(object sender, PaintEventArgs e)
-        {
-            Pen blackpen = new Pen(Color.Black, 3);
-            Graphics g = e.Graphics;
-            g.DrawLine(blackpen, 0, 0, 200, 200);
-            g.Dispose();
-        }
+        
     }
 }
 
