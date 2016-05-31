@@ -21,7 +21,7 @@ namespace ThreatMaps.Pathfinding
 
         private Square[] grid;
         private int width;
-        private int length;
+        private int height;
 
         private Point startPoint;
         private Point endPoint;
@@ -32,7 +32,7 @@ namespace ThreatMaps.Pathfinding
         {
             this.grid = new Square[x * y];
             this.width = x;
-            this.length = y;
+            this.height = y;
             initGrid();
         }
 
@@ -44,52 +44,26 @@ namespace ThreatMaps.Pathfinding
         public List<Square> getNeighbors(Point p)
         {
             List<Square> neighbors = new List<Square>();
-            //left neighbor
-            if(p.X > 0)
+            int minX = Math.Max(p.X - 1, 0);
+            int maxX = Math.Min(p.X + 1, width);
+            int minY = Math.Max(p.Y - 1, 0);
+            int maxY = Math.Min(p.Y + 1, height);
+
+            for (int x = minX; x < maxX; ++x)
             {
-                neighbors.Add(grid[squarePos(p.X -1, p.Y)]);
+                for (int y = minY; y < maxY; y++)
+                {
+                    if (new Point(x, y) != p)
+                        neighbors.Add(grid[squarePos(x, y)]);
+                }
             }
-            //right neighbor
-            if(p.X < width - 1)
-            {
-                neighbors.Add(grid[squarePos(p.X + 1, p.Y)]);
-            }
-            //up neighbor
-            if(p.Y > 0)
-            {
-                neighbors.Add(grid[squarePos(p.X, p.Y - 1)]);
-            }
-            //down neighbor
-            if (p.Y < length - 1)
-            {
-                neighbors.Add(grid[squarePos(p.X, p.Y + 1)]);
-            }
-            //left up neighbor
-            if(p.X > 0 && p.Y > 0)
-            {
-                neighbors.Add(grid[squarePos(p.X - 1, p.Y - 1)]);
-            }
-            //right up neighbor
-            if (p.X < width - 1 && p.Y > 0)
-            {
-                neighbors.Add(grid[squarePos(p.X + 1, p.Y - 1)]);
-            }
-            // left down neighbor
-            if (p.X > 0 && p.Y < length - 1)
-            {
-                neighbors.Add(grid[squarePos(p.X - 1, p.Y + 1)]);
-            }
-            // right down neighbor
-            if (p.X < width - 1 && p.Y < length - 1)
-            {
-                neighbors.Add(grid[squarePos(p.X + 1, p.Y + 1)]);
-            }
+
             return neighbors;
         }
 
         private void initGrid()
         {
-            for(int y = 0; y  < length; ++y)
+            for(int y = 0; y  < height; ++y)
             {
                 for(int x = 0; x < width; ++x)
                 {
