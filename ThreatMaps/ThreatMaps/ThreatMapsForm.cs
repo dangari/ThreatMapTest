@@ -22,7 +22,7 @@ namespace ThreatMaps
         private const int gridXSize = 500;
         private const int gridYSize = 500;
         
-        private int squareSize = 20;
+        private int squareSize = 50;
         private int squareXCount;
         private int squareYCount;
 
