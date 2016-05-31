@@ -4,6 +4,9 @@ namespace ThreatMaps
 {
     partial class ThreatMapsForm
     {
+
+
+
         /// <summary>
         /// Required designer variable.
         /// </summary>
@@ -32,6 +35,7 @@ namespace ThreatMaps
         {
             this.propertiesPanel = new System.Windows.Forms.Panel();
             this.gridPanel = new System.Windows.Forms.Panel();
+            this.debugText = new Label();
             this.SuspendLayout();
             // 
             // propertiesPanel
@@ -41,6 +45,14 @@ namespace ThreatMaps
             this.propertiesPanel.Name = "propertiesPanel";
             this.propertiesPanel.Size = new System.Drawing.Size(200, gridYSize + 10);
             this.propertiesPanel.TabIndex = 0;
+            this.propertiesPanel.Controls.Add(debugText);
+            //
+            //DebugLable
+            //
+            this.debugText.AutoSize = true;
+            this.debugText.Text = "0, 0";
+            this.debugText.Location = new Point(20, 20);
+            this.debugText.Name = "debugText";
             //
             // ContextMenu
             //
@@ -83,6 +95,7 @@ namespace ThreatMaps
 
         private System.Windows.Forms.Panel propertiesPanel;
         private System.Windows.Forms.Panel gridPanel;
+        private System.Windows.Forms.Label debugText;
 
         
     }
