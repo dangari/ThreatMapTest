@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Tools;
+using ThreatMaps.Pathfinding;
 
 namespace ThreatMaps
 {
@@ -34,10 +35,12 @@ namespace ThreatMaps
         private bool endPointSet;
         private bool squareMarked;
 
+        private Grid grid;
+
         public ThreatMapsForm()
         {
             InitializeComponent();
-            calcGridValues();
+            initGrid();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -69,12 +72,14 @@ namespace ThreatMaps
         {
             startPointSet = true;
             startPoint = selectedSquarePoint;
+            grid.StartPoint = startPoint;
             gridPanel.Refresh();
         }
         private void cm_setEndPointEvent(object sender, EventArgs e)
         {
             endPointSet = true;
             endPoint = selectedSquarePoint;
+            grid.EndPoint = endPoint;
             gridPanel.Refresh();
         }
 
@@ -132,10 +137,14 @@ namespace ThreatMaps
             g.Dispose();
         }
 
-        private void calcGridValues()
+        private void initGrid()
         {
+            //calculates size of the grid
             squareXCount = gridXSize / squareSize;
             squareYCount = gridYSize / squareSize;
+
+            //init Grid
+            grid = new Grid(squareXCount, squareYCount);
         }
 
         private Point calcRectPosition(Point p)

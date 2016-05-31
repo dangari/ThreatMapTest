@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GridLines.cs" />
+    <Compile Include="Pathfinding\Grid.cs" />
     <Compile Include="ThreatMapsForm.cs">
       <SubType>Form</SubType>
     </Compile>
