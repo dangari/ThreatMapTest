@@ -14,11 +14,35 @@ namespace ThreatMaps.Pathfinding
         public int Threat;
         public bool occupied;
         public int cost;
+        public Square prevSquare; 
 
         int IComparable.CompareTo(object obj)
         {
             Square s = (Square)obj;
             return cost.CompareTo(s.cost);
+        }
+
+
+        public override bool Equals(object obj)
+        {
+            return this == (Square)obj;
+        }
+
+        public static bool operator ==(Square a, Square b)
+        {
+            // If both are null, or both are same instance, return true.
+            if (System.Object.ReferenceEquals(a, b))
+            {
+                return true;
+            }
+
+            // If one is null, but not both, return false.
+            if (((object)a == null) || ((object)b == null))
+            {
+                return false;
+            }
+
+            return a.realPos == b.realPos;
         }
     }
 
