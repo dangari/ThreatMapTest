@@ -8,12 +8,18 @@ using System.Drawing;
 namespace ThreatMaps.Pathfinding
 {
 
-    struct Square
+    struct Square : IComparable
     {
         public Point realPos;
         public int Threat;
         public bool occupied;
         public int cost;
+
+        int IComparable.CompareTo(object obj)
+        {
+            Square s = (Square)obj;
+            return cost.CompareTo(s.cost);
+        }
     }
 
     class Grid
@@ -59,6 +65,11 @@ namespace ThreatMaps.Pathfinding
             }
 
             return neighbors;
+        }
+
+        public Square getSqaure(Point p)
+        {
+            return grid[squarePos(p.X, p.Y)];
         }
 
         private void initGrid()

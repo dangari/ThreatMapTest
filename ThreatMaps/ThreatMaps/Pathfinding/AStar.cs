@@ -20,5 +20,18 @@ namespace ThreatMaps.Pathfinding
             return 1 * (dx + dy) + (1 - 2 * 1) * Math.Min(dx, dy);
         }
 
+        public void calcPath(Grid g, Point start, Point end)
+        {
+            Point currentPoint = start;
+            int currentCost = 0;
+            List<Square> priorityQueue;
+
+            while(currentPoint != end)
+            {
+                Square currentSquare = g.getSqaure(currentPoint);
+                currentSquare.cost = currentCost + heuristic(currentPoint, end) + currentSquare.Threat;
+            }
+        }
+
     }
 }
