@@ -45,13 +45,13 @@ namespace ThreatMaps.Pathfinding
         {
             List<Square> neighbors = new List<Square>();
             int minX = Math.Max(p.X - 1, 0);
-            int maxX = Math.Min(p.X + 1, width);
+            int maxX = Math.Min(p.X + 1, width - 1);
             int minY = Math.Max(p.Y - 1, 0);
-            int maxY = Math.Min(p.Y + 1, height);
+            int maxY = Math.Min(p.Y + 1, height - 1);
 
-            for (int x = minX; x < maxX; ++x)
+            for (int x = minX; x <= maxX; ++x)
             {
-                for (int y = minY; y < maxY; y++)
+                for (int y = minY; y <= maxY; y++)
                 {
                     if (new Point(x, y) != p)
                         neighbors.Add(grid[squarePos(x, y)]);
