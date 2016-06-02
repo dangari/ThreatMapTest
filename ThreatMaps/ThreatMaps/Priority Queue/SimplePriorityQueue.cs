@@ -111,6 +111,26 @@ namespace Priority_Queue
         }
 
         /// <summary>
+        /// Returns the Priority of the given element
+        /// returns max value if the element isn't in the list
+        /// </summary>
+        public double GetPriority(T item)
+        {
+            lock (_queue)
+            {
+                var comparer = EqualityComparer<T>.Default;
+                foreach (var node in _queue)
+                {
+                    if (comparer.Equals(node.Data, item))
+                    {
+                        return node.Priority;
+                    }
+                }
+                return Double.MaxValue;
+            }
+        }
+
+        /// <summary>
         /// Removes the head of the queue (node with minimum priority; ties are broken by order of insertion), and returns it.
         /// If queue is empty, throws an exception
         /// O(log n)
