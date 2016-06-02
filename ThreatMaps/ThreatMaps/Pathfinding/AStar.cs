@@ -21,7 +21,7 @@ namespace ThreatMaps.Pathfinding
             return 1 * (dx + dy) + (1 - 2 * 1) * Math.Min(dx, dy);
         }
 
-        public void calcPath(Grid g, Point start, Point end)
+        public List<Point> calcPath(Grid g, Point start, Point end)
         {
             Point currentPoint = start;
             Square preSquare;
@@ -39,23 +39,45 @@ namespace ThreatMaps.Pathfinding
                 currentSquare = g.getSqaure(currentPoint);
                 currentSquare.cost = currentCost + currentSquare.Threat;
                 currentSquare.prevSquare = preSquare;
-                
+                closed.Add(currentSquare);
                 currentCost = currentSquare.cost;
 
                 //add neighbors
                 List<Square> neighbors = g.getNeighbors(currentPoint);
                 foreach(Square s in neighbors)
                 {
-                    if(priorityQueue.Contains(s.realPos))
+                    if(priorityQueue.Contains(s.realPos) && priorityQueue.GetPriority(s.realPos) > currentCost)
                     {
-                       
+                        Square neighbor = s;
+                        neighbor.cost = currentCost + s.Threat + heuristic(s.realPos, end);
+                        priorityQueue.UpdatePriority(s.realPos, neighbor.cost);
                     }
                     else if (closed.Contains(s))
                     {
-
+                        closed.Remove(s);
+                    }
+                    else
+                    {
+                        Square neighbor = s;
+                        neighbor.cost = currentCost + s.Threat + heuristic(s.realPos, end);
+                        priorityQueue.Enqueue(neighbor.realPos, neighbor.cost);
                     }
                 }
             }
+            List<Point> finalPath = new List<Point>();
+
+            // calculates the final Path
+            if(closed.Contains(g.getSqaure(end)))
+            {
+                finalPath.Add(end);
+                Square s = g.getSqaure(end);
+                while(currentSquare.realPos != start)
+                {
+                    currentSquare = currentSquare.prevSquare;
+                    finalPath.Add(currentSquare.realPos);
+                }
+            }
+            return finalPath;
         }
 
     }
