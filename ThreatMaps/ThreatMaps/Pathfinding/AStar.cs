@@ -25,9 +25,9 @@ namespace ThreatMaps.Pathfinding
         public List<Point> calcPath(Grid g, Point start, Point end)
         {
             Point currentPoint = start;
-            Square preSquare;
             int currentCost = 0;
             Square currentSquare = g.getSqaure(currentPoint);
+            Square preSquare = currentSquare;
             SimplePriorityQueue<Point> priorityQueue = new SimplePriorityQueue<Point>();
             Hashtable closed = new Hashtable();
             
@@ -65,10 +65,16 @@ namespace ThreatMaps.Pathfinding
                     }
                 }
             }
+            ////add endPoint
+            //currentSquare = g.getSqaure(end);
+            //currentSquare.realPos = end;
+            //currentSquare.prevSquareID = preSquare.realPos.ToString();
+            //closed.Add(currentSquare.realPos.ToString(), currentSquare);
+
             List<Point> finalPath = new List<Point>();
 
             // calculates the final Path
-            if(closed.Contains(g.getSqaure(end)))
+            if(closed.Contains(end.ToString()))
             {
                 finalPath.Add(end);
                 Square s = g.getSqaure(end);

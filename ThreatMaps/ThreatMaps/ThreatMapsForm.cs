@@ -36,6 +36,7 @@ namespace ThreatMaps
         private bool squareMarked;
 
         private Grid grid;
+        private List<Point> path;
 
         public ThreatMapsForm()
         {
@@ -87,7 +88,9 @@ namespace ThreatMaps
 
         private void findPathButton_Click(object sender, EventArgs e)
         {
-            debugText.Text = "ButtonClicked";
+            AStar aStar = new AStar();
+            path = aStar.calcPath(grid, grid.StartPoint, grid.EndPoint);
+            gridPanel.Refresh();
         }
 
 
@@ -140,6 +143,7 @@ namespace ThreatMaps
                 g.FillRectangle(startBrush, rect);
                 squareMarked = false;
             }
+            drawPath(e);
 
             g.Dispose();
         }
@@ -168,6 +172,36 @@ namespace ThreatMaps
             return rect;
         }
 
+        private void drawPath(PaintEventArgs e)
+        {
+            if(path != null && path.Count > 0)
+            {
+                Graphics g = e.Graphics;
+                Pen pen = new Pen(Color.Red, 2);
+                int i = 0;
+                Point prevPoint = new Point(0,0);
+                
+                foreach(Point p in path)
+                {
+                    Point gridPos = clacPathPoint(p);
+                    if(i > 0)
+                    {
+                        g.DrawLine(pen, prevPoint.X , prevPoint.Y, gridPos.X , gridPos.Y);
+                    }
+                    prevPoint = gridPos;
+                    ++i;
+                }
+            }
+        }
+
+        private Point clacPathPoint(Point p)
+        {
+            Point tempPoint = new Point();
+            int halfSize = squareSize / 2;
+            tempPoint.X = p.X * squareSize + halfSize + drawSpace;
+            tempPoint.Y = p.Y * squareSize + halfSize + drawSpace;
+            return tempPoint;
+        }
 
         private void deActivateButton()
         {
