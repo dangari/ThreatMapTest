@@ -22,7 +22,7 @@ namespace ThreatMaps
         private const int gridXSize = 500;
         private const int gridYSize = 500;
         
-        private int squareSize = 50;
+        private int squareSize = 10;
         private int squareXCount;
         private int squareYCount;
 
@@ -37,11 +37,13 @@ namespace ThreatMaps
 
         private Grid grid;
         private List<Point> path;
+        private List<Point> walls;
 
         public ThreatMapsForm()
         {
             InitializeComponent();
             initGrid();
+            walls = new List<Point>();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -62,7 +64,7 @@ namespace ThreatMaps
                 squareMarked = true;
                 Point clickedPoint = gridPanel.PointToClient(Cursor.Position);
            
-                selectedSquarePoint = calcRectPosition(clickedPoint);
+                selectedSquarePoint = calcGridPostion(clickedPoint);
                 debugText.Text = "X: " + clickedPoint.X + " Y: " + clickedPoint.Y;
                 gridPanel.Refresh();
             }
@@ -93,6 +95,21 @@ namespace ThreatMaps
             gridPanel.Refresh();
         }
 
+        private void cm_setRemWall(object sender, EventArgs e)
+        {
+            bool b = grid.setRemWall(selectedSquarePoint);
+            if(b)
+            {
+                walls.Remove(selectedSquarePoint);
+            }
+            else
+            {
+                walls.Add(selectedSquarePoint);
+            }
+            gridPanel.Refresh();
+        }
+
+        
 
         //functions
         private void drawGrid(PaintEventArgs e)
@@ -144,7 +161,7 @@ namespace ThreatMaps
                 squareMarked = false;
             }
             drawPath(e);
-
+            drawWalls(e);
             g.Dispose();
         }
 
@@ -158,7 +175,7 @@ namespace ThreatMaps
             grid = new Grid(squareXCount, squareYCount);
         }
 
-        private Point calcRectPosition(Point p)
+        private Point calcGridPostion(Point p)
         {
             Point tempPoint = new Point();
             tempPoint.X = (p.X - drawSpace) / squareSize;
@@ -191,6 +208,18 @@ namespace ThreatMaps
                     prevPoint = gridPos;
                     ++i;
                 }
+            }
+        }
+
+        private void drawWalls(PaintEventArgs e)
+        {
+            Graphics g = e.Graphics;
+            foreach(Point p in walls)
+            {
+                Rectangle rect = generateRectangle(p);
+                SolidBrush startBrush = new SolidBrush(Color.Black);
+                g.FillRectangle(startBrush, rect);
+                squareMarked = false;
             }
         }
 

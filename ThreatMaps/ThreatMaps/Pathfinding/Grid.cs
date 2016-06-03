@@ -109,7 +109,12 @@ namespace ThreatMaps.Pathfinding
                 for (int y = minY; y <= maxY; y++)
                 {
                     if (new Point(x, y) != p)
-                        neighbors.Add(grid[squarePos(x, y)]);
+                    {
+                        Square s = grid[squarePos(x, y)];
+                        if (!s.occupied)
+                            neighbors.Add(s);
+                    }
+                        
                 }
             }
 
@@ -132,8 +137,15 @@ namespace ThreatMaps.Pathfinding
             }
         }
 
-
-
+        /// <summary>
+        /// Returns true when wall gets removed
+        /// </summary>
+        public bool setRemWall(Point p)
+        {
+            bool b = grid[squarePos(p.X, p.Y)].occupied;
+            grid[squarePos(p.X, p.Y)].occupied = !b;
+            return b;
+        }
 
 
         public Point StartPoint

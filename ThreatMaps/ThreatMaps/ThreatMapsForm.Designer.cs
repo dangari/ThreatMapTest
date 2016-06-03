@@ -61,10 +61,13 @@ namespace ThreatMaps
             ContextMenu cm = new ContextMenu();
             MenuItem mStartPoint = new MenuItem("Start Point");
             MenuItem mEndPoint = new MenuItem("End Point");
+            MenuItem mSetRemWall = new MenuItem("Set/Remove Wall");
             mStartPoint.Click += new System.EventHandler(cm_setStartPointEvent);
             mEndPoint.Click += new System.EventHandler(cm_setEndPointEvent);
+            mSetRemWall.Click += new System.EventHandler(cm_setRemWall);
             cm.MenuItems.Add(mStartPoint);
             cm.MenuItems.Add(mEndPoint);
+            cm.MenuItems.Add(mSetRemWall);
             //
             //findPathButton
             //
