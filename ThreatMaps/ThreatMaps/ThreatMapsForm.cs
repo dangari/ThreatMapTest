@@ -73,6 +73,7 @@ namespace ThreatMaps
             startPointSet = true;
             startPoint = selectedSquarePoint;
             grid.StartPoint = startPoint;
+            deActivateButton();
             gridPanel.Refresh();
         }
         private void cm_setEndPointEvent(object sender, EventArgs e)
@@ -80,7 +81,13 @@ namespace ThreatMaps
             endPointSet = true;
             endPoint = selectedSquarePoint;
             grid.EndPoint = endPoint;
+            deActivateButton();
             gridPanel.Refresh();
+        }
+
+        private void findPathButton_Click(object sender, EventArgs e)
+        {
+            debugText.Text = "ButtonClicked";
         }
 
 
@@ -159,6 +166,19 @@ namespace ThreatMaps
         {
             Rectangle rect = new Rectangle(p.X * squareSize + drawSpace + 1, p.Y * squareSize + drawSpace + 1, squareSize - 1, squareSize - 1);
             return rect;
+        }
+
+
+        private void deActivateButton()
+        {
+            if(startPointSet && endPointSet)
+            {
+                findPathButton.Enabled = true;
+            }
+            else
+            {
+                findPathButton.Enabled = false;
+            }
         }
     }
 }

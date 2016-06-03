@@ -36,6 +36,7 @@ namespace ThreatMaps
             this.propertiesPanel = new System.Windows.Forms.Panel();
             this.gridPanel = new System.Windows.Forms.Panel();
             this.debugText = new Label();
+            this.findPathButton = new Button();
             this.SuspendLayout();
             // 
             // propertiesPanel
@@ -46,6 +47,7 @@ namespace ThreatMaps
             this.propertiesPanel.Size = new System.Drawing.Size(200, gridYSize + 10);
             this.propertiesPanel.TabIndex = 0;
             this.propertiesPanel.Controls.Add(debugText);
+            this.propertiesPanel.Controls.Add(findPathButton);
             //
             //DebugLable
             //
@@ -63,6 +65,14 @@ namespace ThreatMaps
             mEndPoint.Click += new System.EventHandler(cm_setEndPointEvent);
             cm.MenuItems.Add(mStartPoint);
             cm.MenuItems.Add(mEndPoint);
+            //
+            //findPathButton
+            //
+            this.findPathButton.Location = new System.Drawing.Point(60, 400);
+            this.findPathButton.AutoSize = true;
+            this.findPathButton.Text = "Find Path";
+            this.findPathButton.Click += new System.EventHandler(findPathButton_Click);
+            this.findPathButton.Enabled = false;
             // 
             // gridPanel
             //
@@ -96,6 +106,7 @@ namespace ThreatMaps
         private System.Windows.Forms.Panel propertiesPanel;
         private System.Windows.Forms.Panel gridPanel;
         private System.Windows.Forms.Label debugText;
+        private System.Windows.Forms.Button findPathButton;
 
         
     }
