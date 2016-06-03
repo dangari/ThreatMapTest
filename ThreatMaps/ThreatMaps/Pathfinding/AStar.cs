@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 using Priority_Queue;
+using System.Collections;
 
 namespace ThreatMaps.Pathfinding
 {
@@ -28,7 +29,7 @@ namespace ThreatMaps.Pathfinding
             int currentCost = 0;
             Square currentSquare = g.getSqaure(currentPoint);
             SimplePriorityQueue<Point> priorityQueue = new SimplePriorityQueue<Point>();
-            List<Square> closed = new List<Square>();
+            Hashtable closed = new Hashtable();
             
             priorityQueue.Enqueue(start, 0);
 
@@ -38,8 +39,8 @@ namespace ThreatMaps.Pathfinding
                 currentPoint = priorityQueue.Dequeue();
                 currentSquare = g.getSqaure(currentPoint);
                 currentSquare.cost = currentCost + currentSquare.Threat;
-                currentSquare.prevSquare = preSquare;
-                closed.Add(currentSquare);
+                currentSquare.prevSquareID = preSquare.realPos.ToString();
+                closed.Add(currentSquare.realPos.ToString(),currentSquare);
                 currentCost = currentSquare.cost;
 
                 //add neighbors
@@ -73,7 +74,7 @@ namespace ThreatMaps.Pathfinding
                 Square s = g.getSqaure(end);
                 while(currentSquare.realPos != start)
                 {
-                    currentSquare = currentSquare.prevSquare;
+                    currentSquare = (Square)closed[currentSquare.prevSquareID];
                     finalPath.Add(currentSquare.realPos);
                 }
             }

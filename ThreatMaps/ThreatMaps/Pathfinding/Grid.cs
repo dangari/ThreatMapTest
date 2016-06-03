@@ -14,9 +14,12 @@ namespace ThreatMaps.Pathfinding
         public int Threat;
         public bool occupied;
         public int cost;
-        public Square prevSquare; 
+        public string prevSquareID; 
 
-        int IComparable.CompareTo(object obj)
+
+
+
+        public int CompareTo(object obj)
         {
             Square s = (Square)obj;
             return cost.CompareTo(s.cost);
@@ -43,6 +46,28 @@ namespace ThreatMaps.Pathfinding
             }
 
             return a.realPos == b.realPos;
+        }
+
+        public static bool operator !=(Square a, Square b)
+        {
+            // If both are null, or both are same instance, return true.
+            if (System.Object.ReferenceEquals(a, b))
+            {
+                return false;
+            }
+
+            // If one is null, but not both, return false.
+            if (((object)a == null) || ((object)b == null))
+            {
+                return true;
+            }
+
+            return a.realPos == b.realPos;
+        }
+
+        public override int GetHashCode()
+        {
+            return realPos.GetHashCode();
         }
     }
 
