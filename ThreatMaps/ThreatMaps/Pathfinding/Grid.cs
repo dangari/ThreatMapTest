@@ -96,6 +96,11 @@ namespace ThreatMaps.Pathfinding
            return y * width + x;
         }
 
+        public int squarePos(Point p)
+        {
+            return p.Y * width + p.X;
+        }
+
         public List<Square> getNeighbors(Point p)
         {
             List<Square> neighbors = new List<Square>();
@@ -111,7 +116,7 @@ namespace ThreatMaps.Pathfinding
                     if (new Point(x, y) != p)
                     {
                         Square s = grid[squarePos(x, y)];
-                        if (!s.occupied)
+                        if (!s.occupied && canReach(s.realPos, p))
                             neighbors.Add(s);
                     }
                         
@@ -119,6 +124,20 @@ namespace ThreatMaps.Pathfinding
             }
 
             return neighbors;
+        }
+
+        private bool canReach(Point p, Point origin)
+        {
+            Point p1 = new Point(p.X, origin.Y);
+            Point p2 = new Point(origin.X, p.Y);
+
+            Square s1 = grid[squarePos(p1)];
+            Square s2 = grid[squarePos(p2)];
+
+            if (s1.occupied || s2.occupied)
+                return false;
+
+            return true;
         }
 
         public Square getSqaure(Point p)
