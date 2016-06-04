@@ -37,6 +37,7 @@ namespace ThreatMaps
             this.gridPanel = new System.Windows.Forms.Panel();
             this.debugText = new Label();
             this.findPathButton = new Button();
+            this.randomWalls = new Button();
             this.SuspendLayout();
             // 
             // propertiesPanel
@@ -48,6 +49,7 @@ namespace ThreatMaps
             this.propertiesPanel.TabIndex = 0;
             this.propertiesPanel.Controls.Add(debugText);
             this.propertiesPanel.Controls.Add(findPathButton);
+            this.propertiesPanel.Controls.Add(randomWalls);
             //
             //DebugLable
             //
@@ -76,6 +78,14 @@ namespace ThreatMaps
             this.findPathButton.Text = "Find Path";
             this.findPathButton.Click += new System.EventHandler(findPathButton_Click);
             this.findPathButton.Enabled = false;
+            //
+            //randomWallsButton
+            //
+            this.randomWalls.Location = new System.Drawing.Point(55, 300);
+            this.randomWalls.AutoSize = true;
+            this.randomWalls.Text = "Random Walls";
+            this.randomWalls.Click += new System.EventHandler(randomWalls_Click);
+            this.randomWalls.Enabled = true;
             // 
             // gridPanel
             //
@@ -110,6 +120,7 @@ namespace ThreatMaps
         private System.Windows.Forms.Panel gridPanel;
         private System.Windows.Forms.Label debugText;
         private System.Windows.Forms.Button findPathButton;
+        private System.Windows.Forms.Button randomWalls;
 
         
     }

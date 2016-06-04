@@ -148,6 +148,41 @@ namespace ThreatMaps.Pathfinding
         }
 
 
+        public List<Point> generateRandomWalls(int cycles)
+        {
+            
+            //resets the walls
+            for (int i = 0; i < grid.Length; i++)
+            {
+                grid[i].occupied = false;
+            }
+
+            int baseCount = (int)Math.Round(grid.Length  * 0.05, 0);
+            Random r = new Random();
+            List<Point> walls = new List<Point>();
+
+            for (int i = 0; i < cycles; ++i)
+            {
+                for(int j = 0; j < baseCount; ++j)
+                {
+                    int x = r.Next(0, width - 1);
+                    int y = r.Next(0, height - 1);
+                    Point p = new Point(x, y);
+                    if(!getSqaure(p).occupied)
+                    {
+                        grid[squarePos(x, y)].occupied = true;
+                        walls.Add(p);
+                    }
+                    else
+                    {
+                        --j;
+                    }                    
+                }
+            }
+
+            return walls;
+        }
+
         public Point StartPoint
         {
             get { return startPoint; }

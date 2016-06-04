@@ -22,7 +22,7 @@ namespace ThreatMaps
         private const int gridXSize = 500;
         private const int gridYSize = 500;
         
-        private int squareSize = 50;
+        private int squareSize = 10;
         private int squareXCount;
         private int squareYCount;
 
@@ -92,6 +92,12 @@ namespace ThreatMaps
         {
             AStar aStar = new AStar();
             path = aStar.calcPath(grid, grid.StartPoint, grid.EndPoint);
+            gridPanel.Refresh();
+        }
+
+        private void randomWalls_Click(object sender, EventArgs e)
+        {
+            walls = grid.generateRandomWalls(4);
             gridPanel.Refresh();
         }
 
