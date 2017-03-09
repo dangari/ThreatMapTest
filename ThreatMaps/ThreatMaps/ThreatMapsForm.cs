@@ -7,7 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Tools;
 using ThreatMaps.Pathfinding;
 
 namespace ThreatMaps
@@ -91,19 +90,19 @@ namespace ThreatMaps
         private void findPathButton_Click(object sender, EventArgs e)
         {
             AStar aStar = new AStar();
-            path = aStar.calcPath(grid, grid.StartPoint, grid.EndPoint);
+            path = aStar.CalcPath(grid, grid.StartPoint, grid.EndPoint);
             gridPanel.Refresh();
         }
 
         private void randomWalls_Click(object sender, EventArgs e)
         {
-            walls = grid.generateRandomWalls(4);
+            walls = grid.GenerateRandomWalls(4);
             gridPanel.Refresh();
         }
 
         private void cm_setRemWall(object sender, EventArgs e)
         {
-            bool b = grid.setRemWall(selectedSquarePoint);
+            bool b = grid.SetRemWall(selectedSquarePoint);
             if(b)
             {
                 walls.Remove(selectedSquarePoint);
@@ -132,15 +131,15 @@ namespace ThreatMaps
             // draw vertical lines
             for(int i = 0; i <= squareXCount; ++i)
             {
-                LineValues l = gridLines.calcVerticalLine(i, squareSize, gridXSize, drawSpace);
-                g.DrawLine(blackPen, l.startX, l.startY, l.endX, l.endY);
+                LineValues l = gridLines.CalcVerticalLine(i, squareSize, gridXSize, drawSpace);
+                g.DrawLine(blackPen, l.StartX, l.StartY, l.EndX, l.EndY);
             }
 
             // draw horizontal lines
             for (int i = 0; i <= squareYCount; ++i)
             {
-                LineValues l = gridLines.calcHorizontalLine(i, squareSize, gridXSize, drawSpace);
-                g.DrawLine(blackPen, l.startX, l.startY, l.endX, l.endY);
+                LineValues l = gridLines.CalcHorizontalLine(i, squareSize, gridXSize, drawSpace);
+                g.DrawLine(blackPen, l.StartX, l.StartY, l.EndX, l.EndY);
             }
 
             if(squareMarked)

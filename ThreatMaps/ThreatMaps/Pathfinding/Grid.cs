@@ -1,30 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Drawing;
 
 namespace ThreatMaps.Pathfinding
 {
 
-    struct Square : IComparable
+    public struct Square : IComparable
     {
-        public Point realPos;
-        public int Threat;
-        public bool occupied;
-        public int cost;
-        public string prevSquareID; 
-
-
-
+        public Point RealPos { get; set; }
+        public int Threat { get; set; }
+        public bool Occupied { get; set; }
+        public int Cost { get; set; }
+        public string PrevSquareID { get; set; }
 
         public int CompareTo(object obj)
         {
             Square s = (Square)obj;
-            return cost.CompareTo(s.cost);
+            return Cost.CompareTo(s.Cost);
         }
-
 
         public override bool Equals(object obj)
         {
@@ -33,81 +26,52 @@ namespace ThreatMaps.Pathfinding
 
         public static bool operator ==(Square a, Square b)
         {
-            // If both are null, or both are same instance, return true.
-            if (System.Object.ReferenceEquals(a, b))
-            {
-                return true;
-            }
-
-            // If one is null, but not both, return false.
-            if (((object)a == null) || ((object)b == null))
-            {
-                return false;
-            }
-
-            return a.realPos == b.realPos;
+            return a.RealPos == b.RealPos;
         }
 
         public static bool operator !=(Square a, Square b)
         {
-            // If both are null, or both are same instance, return true.
-            if (System.Object.ReferenceEquals(a, b))
-            {
-                return false;
-            }
-
-            // If one is null, but not both, return false.
-            if (((object)a == null) || ((object)b == null))
-            {
-                return true;
-            }
-
-            return a.realPos == b.realPos;
+           return a.RealPos == b.RealPos;
         }
 
         public override int GetHashCode()
         {
-            return realPos.GetHashCode();
+            return RealPos.GetHashCode();
         }
     }
 
-    class Grid
+    public class Grid
     {
 
-        private Square[] grid;
-        private int width;
-        private int height;
-
-        private Point startPoint;
-        private Point endPoint;
-
-      
+        private readonly Square[] m_Grid;
+        private readonly int m_Width;
+        private readonly int m_Height;
 
         public Grid(int x, int y)
         {
-            this.grid = new Square[x * y];
-            this.width = x;
-            this.height = y;
-            initGrid();
+            m_Grid = new Square[x * y];
+            m_Width = x;
+            m_Height = y;
+            InitGrid();
         }
 
-        public int squarePos(int x, int y)
+        public int SquarePos(int x, int y)
         {
-           return y * width + x;
+           return y * m_Width + x;
         }
 
-        public int squarePos(Point p)
+        public int SquarePos(Point p)
         {
-            return p.Y * width + p.X;
+            return p.Y * m_Width + p.X;
         }
 
-        public List<Square> getNeighbors(Point p)
+        public List<Square> GetNeighbors(Point p)
         {
             List<Square> neighbors = new List<Square>();
             int minX = Math.Max(p.X - 1, 0);
-            int maxX = Math.Min(p.X + 1, width - 1);
+            int maxX = Math.Min(p.X + 1, m_Width - 1);
             int minY = Math.Max(p.Y - 1, 0);
-            int maxY = Math.Min(p.Y + 1, height - 1);
+            int maxY = Math.Min(p.Y + 1, m_Height - 1);
 
             for (int x = minX; x <= maxX; ++x)
             {
@@ -115,8 +79,8 @@ namespace ThreatMaps.Pathfinding
                 {
                     if (new Point(x, y) != p)
                     {
-                        Square s = grid[squarePos(x, y)];
-                        if (!s.occupied && canReach(s.realPos, p))
+                        Square s = m_Grid[SquarePos(x, y)];
+                        if (!s.Occupied && CanReach(s.RealPos, p))
                             neighbors.Add(s);
                     }
                         
@@ -126,32 +90,29 @@ namespace ThreatMaps.Pathfinding
             return neighbors;
         }
 
-        private bool canReach(Point p, Point origin)
+        private bool CanReach(Point p, Point origin)
         {
             Point p1 = new Point(p.X, origin.Y);
             Point p2 = new Point(origin.X, p.Y);
 
-            Square s1 = grid[squarePos(p1)];
-            Square s2 = grid[squarePos(p2)];
+            Square s1 = m_Grid[SquarePos(p1)];
+            Square s2 = m_Grid[SquarePos(p2)];
 
-            if (s1.occupied || s2.occupied)
-                return false;
-
-            return true;
+            return !s1.Occupied && !s2.Occupied;
         }
 
-        public Square getSqaure(Point p)
+        public Square GetSqaure(Point p)
         {
-            return grid[squarePos(p.X, p.Y)];
+            return m_Grid[SquarePos(p.X, p.Y)];
         }
 
-        private void initGrid()
+        private void InitGrid()
         {
-            for(int y = 0; y  < height; ++y)
+            for(int y = 0; y  < m_Height; ++y)
             {
-                for(int x = 0; x < width; ++x)
+                for(int x = 0; x < m_Width; ++x)
                 {
-                    grid[squarePos(x, y)].realPos = new Point(x, y);
+                    m_Grid[SquarePos(x, y)].RealPos = new Point(x, y);
                 }
             }
         }
@@ -159,24 +120,24 @@ namespace ThreatMaps.Pathfinding
         /// <summary>
         /// Returns true when wall gets removed
         /// </summary>
-        public bool setRemWall(Point p)
+        public bool SetRemWall(Point p)
         {
-            bool b = grid[squarePos(p.X, p.Y)].occupied;
-            grid[squarePos(p.X, p.Y)].occupied = !b;
+            bool b = m_Grid[SquarePos(p.X, p.Y)].Occupied;
+            m_Grid[SquarePos(p.X, p.Y)].Occupied = !b;
             return b;
         }
 
 
-        public List<Point> generateRandomWalls(int cycles)
+        public List<Point> GenerateRandomWalls(int cycles)
         {
             
             //resets the walls
-            for (int i = 0; i < grid.Length; i++)
+            for (int i = 0; i < m_Grid.Length; i++)
             {
-                grid[i].occupied = false;
+                m_Grid[i].Occupied = false;
             }
 
-            int baseCount = (int)Math.Round(grid.Length  * 0.05, 0);
+            int baseCount = (int)Math.Round(m_Grid.Length  * 0.05, 0);
             Random r = new Random();
             List<Point> walls = new List<Point>();
 
@@ -184,12 +145,12 @@ namespace ThreatMaps.Pathfinding
             {
                 for(int j = 0; j < baseCount; ++j)
                 {
-                    int x = r.Next(0, width - 1);
-                    int y = r.Next(0, height - 1);
+                    int x = r.Next(0, m_Width - 1);
+                    int y = r.Next(0, m_Height - 1);
                     Point p = new Point(x, y);
-                    if(!getSqaure(p).occupied)
+                    if(!GetSqaure(p).Occupied)
                     {
-                        grid[squarePos(x, y)].occupied = true;
+                        m_Grid[SquarePos(x, y)].Occupied = true;
                         walls.Add(p);
                     }
                     else
@@ -202,16 +163,8 @@ namespace ThreatMaps.Pathfinding
             return walls;
         }
 
-        public Point StartPoint
-        {
-            get { return startPoint; }
-            set { startPoint = value; }
-        }
+        public Point StartPoint { get; set; }
 
-        public Point EndPoint
-        {
-            get { return endPoint; }
-            set { endPoint = value; }
-        }
+        public Point EndPoint { get; set; }
     }
 }

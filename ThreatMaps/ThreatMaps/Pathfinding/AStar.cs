@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Drawing;
 using Priority_Queue;
 using System.Collections;
@@ -12,10 +9,10 @@ namespace ThreatMaps.Pathfinding
 
    
 
-    class AStar
+    public class AStar
     {
 
-        private int heuristic(Point node, Point goal)
+        private int Heuristic(Point node, Point goal)
         {
             int dx = Math.Abs(node.X - goal.X);
             int dy = Math.Abs(node.Y - goal.Y);
@@ -31,11 +28,10 @@ namespace ThreatMaps.Pathfinding
 
 
 
-        public List<Point> calcPath(Grid g, Point start, Point end)
+        public List<Point> CalcPath(Grid g, Point start, Point end)
         {
             Point currentPoint = start;
-            int currentCost = 0;
-            Square currentSquare = g.getSqaure(start);
+            Square currentSquare = g.GetSqaure(start);
             SimplePriorityQueue<Square> priorityQueue = new SimplePriorityQueue<Square>();
             Hashtable closed = new Hashtable();
 
@@ -46,40 +42,41 @@ namespace ThreatMaps.Pathfinding
             {
 
                 currentSquare = priorityQueue.Dequeue();
-                currentPoint = currentSquare.realPos;
-                currentSquare.cost = getCost(steps, currentSquare, end);
-                closed.Add(currentSquare.realPos.ToString(),currentSquare);
-                currentCost = currentSquare.cost;
+                currentPoint = currentSquare.RealPos;
+                currentSquare.Cost = GetCost(steps, currentSquare, end);
+                closed.Add(currentSquare.RealPos.ToString(),currentSquare);
+                int currentCost = currentSquare.Cost;
 
                 //add neighbors
-                List<Square> neighbors = g.getNeighbors(currentSquare.realPos);
+                List<Square> neighbors = g.GetNeighbors(currentSquare.RealPos);
                 foreach(Square s in neighbors)
                 {
                     if (priorityQueue.Contains(s) && priorityQueue.GetPriority(s) > currentCost)
                     {
                         priorityQueue.Remove(s);
                     }
-                    if (closed.Contains(s.realPos.ToString()))
+                    if (closed.Contains(s.RealPos.ToString()))
                     {
-                        Square x = (Square)closed[s.realPos.ToString()];
-                        if (x.cost > currentCost)
+                        Square x = (Square)closed[s.RealPos.ToString()];
+                        if (x.Cost > currentCost)
                             closed.Remove(s);
                     }
-                    if (!priorityQueue.Contains(s) && !closed.Contains(s.realPos.ToString()))
+                    if (!priorityQueue.Contains(s) && !closed.Contains(s.RealPos.ToString()))
                     {
                         Square neighbor = s;
-                        neighbor.cost = getCost(steps, s, end);
-                        neighbor.prevSquareID = currentSquare.realPos.ToString();
-                        priorityQueue.Enqueue(neighbor, neighbor.cost);
+                        neighbor.Cost = GetCost(steps, s, end);
+                        neighbor.PrevSquareID = currentSquare.RealPos.ToString();
+                        priorityQueue.Enqueue(neighbor, neighbor.Cost);
                     }
                 }
+
                 ++steps;
             }
             ////add endPoint
             //currentSquare = g.getSqaure(end);
-            //currentSquare.realPos = end;
-            //currentSquare.prevSquareID = preSquare.realPos.ToString();
-            //closed.Add(currentSquare.realPos.ToString(), currentSquare);
+            //currentSquare.RealPos = end;
+            //currentSquare.PrevSquareID = preSquare.RealPos.ToString();
+            //closed.Add(currentSquare.RealPos.ToString(), currentSquare);
 
             List<Point> finalPath = new List<Point>();
 
@@ -87,19 +84,20 @@ namespace ThreatMaps.Pathfinding
             if(closed.Contains(end.ToString()))
             {
                 finalPath.Add(end);
-                Square s = g.getSqaure(end);
-                while(currentSquare.realPos != start)
+                Square s = g.GetSqaure(end);
+                while(currentSquare.RealPos != start)
                 {
-                    currentSquare = (Square)closed[currentSquare.prevSquareID];
-                    finalPath.Add(currentSquare.realPos);
+                    currentSquare = (Square)closed[currentSquare.PrevSquareID];
+                    finalPath.Add(currentSquare.RealPos);
                 }
             }
+
             return finalPath;
         }
 
-        private int getCost(int steps, Square node, Point end)
+        private int GetCost(int steps, Square node, Point end)
         {
-            return (2 * steps + heuristic(node.realPos, end) + node.Threat);
+            return (2 * steps + Heuristic(node.RealPos, end) + node.Threat);
         }
 
     }
